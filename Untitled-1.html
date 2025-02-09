@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bouton Fuyant</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+            overflow: hidden;
+        }
+
+        #fleeButton {
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #FF0000;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            position: absolute;
+            transition: top 0.2s, left 0.2s;
+        }
+    </style>
+</head>
+<body>
+    <button id="fleeButton">Clique-moi !</button>
+
+    <script>
+        const button = document.getElementById('fleeButton');
+        const distance = 100; // Distance de fuite
+
+        document.addEventListener('mousemove', (e) => {
+            const rect = button.getBoundingClientRect();
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+            const buttonX = rect.left + rect.width / 2;
+            const buttonY = rect.top + rect.height / 2;
+
+            const dx = mouseX - buttonX;
+            const dy = mouseY - buttonY;
+            const distanceFromMouse = Math.hypot(dx, dy);
+
+            if (distanceFromMouse < distance) {
+                const angle = Math.atan2(dy, dx);
+                const moveX = Math.cos(angle) * -distance;
+                const moveY = Math.sin(angle) * -distance;
+
+                let newLeft = rect.left + moveX;
+                let newTop = rect.top + moveY;
+
+                // Empêcher le bouton de sortir de l'écran
+                newLeft = Math.max(0, Math.min(window.innerWidth - rect.width, newLeft));
+                newTop = Math.max(0, Math.min(window.innerHeight - rect.height, newTop));
+
+                button.style.left = `${newLeft}px`;
+                button.style.top = `${newTop}px`;
+            }
+        });
+
+        // Redirection au clic sur le bouton
+        button.addEventListener('click', () => {
+            window.location.href = 'https://www.youtube.com/@Koraya216';
+        });
+    </script>
+</body>
+</html>
